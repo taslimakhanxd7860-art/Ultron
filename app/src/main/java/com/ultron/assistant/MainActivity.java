@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 
         webView.addJavascriptInterface(new AndroidBridge(), "Android");
         setContentView(webView);
-        webView.loadUrl("https://github.com/taslimakhanxd7860-art/Ultron");
+        webView.loadUrl("file:///android_asset/index.html");
     }
 
     public class AndroidBridge {

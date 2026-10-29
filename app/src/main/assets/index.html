@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ULTRON AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07111f;color:#e9faff;font-family:Arial,sans-serif}
+header{padding:22px;text-align:center;border-bottom:1px solid #164b62}
+h1{margin:0;color:#00e5ff;letter-spacing:5px}
+small{color:#80aeba}
+main{padding:18px;max-width:650px;margin:auto}
+.circle{width:120px;height:120px;margin:24px auto;border:2px solid #00e5ff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 28px #00aacc;font-size:42px;color:#00e5ff}
+#chat{height:42vh;overflow:auto;background:#0c1b2a;border:1px solid #164b62;border-radius:14px;padding:12px}
+.msg{padding:10px;margin:8px 0;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.bot{background:#123346}
+.user{background:#17444a;text-align:right}
+.controls{display:flex;gap:8px;margin-top:12px}
+input{min-width:0;flex:1;background:#102334;color:white;border:1px solid #16738b;border-radius:10px;padding:13px}
+button{background:#00cce5;color:#00121b;border:0;border-radius:10px;padding:12px;font-weight:bold}
+#status{text-align:center;color:#80aeba;margin:12px}
+</style>
+</head>
+<body>
+<header><h1>ULTRON</h1><small>PERSONAL AI ASSISTANT</small></header>
+<main>
+<div class="circle">U</div>
+<div id="status">SYSTEM ONLINE · READY</div>
+<div id="chat"><div class="msg bot">Hello! I am ULTRON. Type a message to begin.</div></div>
+<div class="controls">
+<input id="message" placeholder="Ask ULTRON anything..." />
+<button onclick="send()">SEND</button>
+</div>
+<div class="controls">
+<button style="flex:1" onclick="listen()">🎙 SPEAK</button>
+<button style="flex:1" onclick="clearChat()">CLEAR</button>
+</div>
+</main>
+<script>
+const chat=document.getElementById('chat');
+function add(text,who){
+ const d=document.createElement('div');
+ d.className='msg '+who;d.textContent=text;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+}
+function send(){
+ const box=document.getElementById('message');
+ const text=box.value.trim();if(!text)return;
+ box.value='';add(text,'user');
+ add('I received your message. Connect an AI backend in Settings/code to enable intelligent answers.','bot');
+}
+function listen(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){add('Speech recognition is not available in this WebView. Try typing your message.','bot');return;}
+ const r=new SR();r.lang='en-IN';r.onresult=e=>{document.getElementById('message').value=e.results[0][0].transcript;};r.start();
+}
+function clearChat(){chat.innerHTML='';}
+document.getElementById('message').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+</script>
+</body>
+</html>
